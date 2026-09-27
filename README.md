@@ -11,3 +11,4 @@ About 30 minutes later, AI had built, tested, and documented the lab. All from o
 | Lab | Description | Documentation |
 | --- | --- | --- |
 | [lab-srv6](lab-srv6/) | SRv6 lab using Cisco IOL routers. Includes the topology, router configs, and verification script. | [Lab guide](lab-srv6/HLD.md) |
+| [lab-sr-mpls](lab-sr-mpls/) | SR-MPLS lab using the same topology as lab-srv6. | [Lab guide](lab-sr-mpls/HLD.md) |

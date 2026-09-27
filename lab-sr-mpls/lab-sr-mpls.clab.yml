@@ -1,0 +1,36 @@
+name: iol-srmpls
+
+mgmt:
+  network: clab-iol-srmpls
+  ipv4-subnet: 172.100.211.0/24
+
+topology:
+  defaults:
+    kind: cisco_iol
+    image: vrnetlab/cisco_iol:17.18.02
+
+  nodes:
+    host1:        {mgmt-ipv4: 172.100.211.11, startup-config: configs/host1.cfg}
+    ipsec-rtr1:   {mgmt-ipv4: 172.100.211.12, startup-config: configs/ipsec-rtr1.cfg}
+    pe-rtr-1:     {mgmt-ipv4: 172.100.211.13, startup-config: configs/pe-rtr-1.cfg}
+    core-p-rtr-1: {mgmt-ipv4: 172.100.211.14, startup-config: configs/core-p-rtr-1.cfg}
+    core-p-rtr-2: {mgmt-ipv4: 172.100.211.15, startup-config: configs/core-p-rtr-2.cfg}
+    core-p-rtr-3: {mgmt-ipv4: 172.100.211.16, startup-config: configs/core-p-rtr-3.cfg}
+    core-p-rtr-4: {mgmt-ipv4: 172.100.211.17, startup-config: configs/core-p-rtr-4.cfg}
+    pe-rtr-2:     {mgmt-ipv4: 172.100.211.18, startup-config: configs/pe-rtr-2.cfg}
+    ipsec-rtr2:   {mgmt-ipv4: 172.100.211.19, startup-config: configs/ipsec-rtr2.cfg}
+    host2:        {mgmt-ipv4: 172.100.211.20, startup-config: configs/host2.cfg}
+
+  links:
+    - endpoints: ["host1:Ethernet0/1", "ipsec-rtr1:Ethernet0/2"]          # 192.168.1.0/24
+    - endpoints: ["ipsec-rtr1:Ethernet0/1", "pe-rtr-1:Ethernet0/1"]       # 10.1.1.0/30 eBGP
+    - endpoints: ["pe-rtr-1:Ethernet0/2", "core-p-rtr-1:Ethernet0/1"]
+    - endpoints: ["pe-rtr-1:Ethernet0/3", "core-p-rtr-3:Ethernet0/1"]
+    - endpoints: ["core-p-rtr-1:Ethernet0/2", "core-p-rtr-2:Ethernet0/1"]
+    - endpoints: ["core-p-rtr-1:Ethernet0/3", "core-p-rtr-4:Ethernet0/2"]
+    - endpoints: ["core-p-rtr-3:Ethernet0/2", "core-p-rtr-4:Ethernet0/1"]
+    - endpoints: ["core-p-rtr-3:Ethernet0/3", "core-p-rtr-2:Ethernet0/2"]
+    - endpoints: ["core-p-rtr-2:Ethernet0/3", "pe-rtr-2:Ethernet0/2"]
+    - endpoints: ["core-p-rtr-4:Ethernet0/3", "pe-rtr-2:Ethernet0/3"]
+    - endpoints: ["pe-rtr-2:Ethernet0/1", "ipsec-rtr2:Ethernet0/1"]       # 10.2.2.0/30 eBGP
+    - endpoints: ["ipsec-rtr2:Ethernet0/2", "host2:Ethernet0/1"]          # 192.168.2.0/24
